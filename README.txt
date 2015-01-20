@@ -96,23 +96,24 @@ CHANGELOG:
                      - Fixed a bug where scrollbar is not clickable in certain tables in Chrome
                      - Selectable event is now canceled on iPhone switch on status tab
                      - Deleted obsolete code which interfered with iPhone switch
-					 - Video now again preselected while adding new online sources
-- 1.5.4 - 10/31/2014 - Removed redundant code
-					 - Added button to check stream URL while adding or editing online sources
-					 - Fixed bug for not providing parameters for REST API call postAction
-					 - Updated page icon
-					 - Improved error handling and error information output
-					 - Fixed metadata rescan and library refresh
-					 - Fixed refresh button in status tab
-					 - Names of online sources can now contain characters like ' < > &
-					 - Updated to jQuery 1.9.1
-					 - Updated datatables and ColVis to latest nightly builds
-					 - Fix a bug where occasionally a selected local folder cannot be added or a wrong selection dialog might appear
-					 - Updated Serviio version check
-					 - Added page reload after OS import and license upload
-					 - Fixed license upload
-					 - Multilanguage updates
-					 - Preparations for Serviio API update
+                     - Video now again preselected while adding new online sources
+- 1.5.5 - 10/31/2014 - Removed redundant code
+                     - Added button to check stream URL while adding or editing online sources
+                     - Fixed bug for not providing parameters for REST API call postAction
+                     - Updated page icon
+                     - Improved error handling and error information output
+                     - Fixed metadata rescan and library refresh
+                     - Fixed refresh button in status tab
+                     - Names of online sources can now contain characters like ' < > &
+                     - Updated to jQuery 1.9.1
+                     - Updated datatables and ColVis to latest nightly builds
+                     - Fix a bug where occasionally a selected local folder cannot be added or a wrong selection dialog might appear
+                     - Updated Serviio version check
+                     - Added page reload after OS import and license upload
+                     - Fixed license upload
+                     - Multilanguage updates
+                     - Preparations for Serviio API update
+- 1.6 - 12/22/2014 - Updated to work with Serviio 1.5 (requires Serviio 1.5)
 
 ANNOUNCEMENTS:
 http://forum.serviio.org/viewtopic.php?f=17&t=12593
