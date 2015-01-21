@@ -363,7 +363,7 @@ class ServiioService extends RestRequest
                     }
                 }
                 $descriptiveMetadataSupported = (string)$item->descriptiveMetadataSupported;
-                $scanForUpdates = (string)$item->scanForUpdates;
+                //$scanForUpdates = (string)$item->scanForUpdates;
                 $accessGroupIds = array();
                 if ($this->licenseEdition != "FREE") {
                     foreach ($item->accessGroupIds as $accessGroupId) {
@@ -372,7 +372,8 @@ class ServiioService extends RestRequest
                         }
                     }
                 }
-                $sf[$id] = array($folderPath, $supportedFileTypes, $descriptiveMetadataSupported, $scanForUpdates, $accessGroupIds);
+                //$sf[$id] = array($folderPath, $supportedFileTypes, $descriptiveMetadataSupported, $scanForUpdates, $accessGroupIds);
+				$sf[$id] = array($folderPath, $supportedFileTypes, $descriptiveMetadataSupported, $accessGroupIds);
             }
         }
         $repo[0] = $sf;
@@ -816,7 +817,10 @@ class ServiioService extends RestRequest
         $root->appendChild($xmlDoc->createElement("metadataLanguage", $metadataLanguage));
         $root->appendChild($xmlDoc->createElement("retrieveOriginalTitle", $retrieveOriginalTitle));
         $root->appendChild($xmlDoc->createElement("descriptiveMetadataExtractor", $descriptiveMetadataExtractor));
-        $root->appendChild($xmlDoc->createElement("filterVideosByRating", $filterVideosByRating));
+        if ($filterVideosByRating!="") {
+            $root->appendChild($xmlDoc->createElement("filterVideosByRating", $filterVideosByRating));
+        }
+        
 
         /*
         header("Content-Type: text/plain");
@@ -854,10 +858,11 @@ class ServiioService extends RestRequest
         if (isset($repo[0])) {
             foreach ($repo[0] as $id=>$entry) {
                 $Folder = $sharedFolders->appendChild($xmlDoc->createElement("sharedFolder"));
-                if ($entry[4] != "new") {
+                //if ($entry[4] != "new") {
+				if ($entry[3] != "new") {
                     $Folder->appendChild($xmlDoc->createElement("id", $id));
                 }
-                $Folder->appendChild($xmlDoc->createElement("folderPath", stripslashes(htmlspecialchars($entry[0]))));
+				$Folder->appendChild($xmlDoc->createElement("folderPath", stripslashes(htmlspecialchars($entry[0]))));
 
                 $supportedFileTypes = $Folder->appendChild($xmlDoc->createElement("supportedFileTypes"));
                 foreach ($entry[1] as $type) {
@@ -865,11 +870,11 @@ class ServiioService extends RestRequest
                 }
 
                 $Folder->appendChild($xmlDoc->createElement("descriptiveMetadataSupported", $entry[2]));
-                $Folder->appendChild($xmlDoc->createElement("scanForUpdates", $entry[3]));
+                //$Folder->appendChild($xmlDoc->createElement("scanForUpdates", $entry[3]));
 
-                if (is_array($entry[5])) {
+                if (is_array($entry[4])) {
                     $accessGroupIds = $Folder->appendChild($xmlDoc->createElement("accessGroupIds"));
-                    foreach ($entry[5] as $grpId) {
+                    foreach ($entry[4] as $grpId) {
                         $accessGroupIds->appendChild($xmlDoc->createElement("id", $grpId));
                     }
                 }
