@@ -59,12 +59,12 @@
 						$metaval = "false";
 					} 
 					$repo[0][$id] = array(
-						getPostVar("name_${id}", ""),
-						$items,
-						$metaval,
-						getPostVar("SCAN_${id}", "0")==1?"true":"false",
-						getPostVar("folder_${id}", "new"),
-						array(getPostVar("access_${id}", "")));
+						getPostVar("name_${id}", ""),                       //[0]folderPath
+						$items,                                             //[1]fileType
+						$metaval,                                           //[2]descriptiveMetadataSupported
+						//getPostVar("SCAN_${id}", "0")==1?"true":"false",  //[]scanForUpdates
+						getPostVar("folder_${id}", "new"),                  //[3]id
+						array(getPostVar("access_${id}", "")));             //[4]accessGroupIds
 				}
 
 				// Online Sources
