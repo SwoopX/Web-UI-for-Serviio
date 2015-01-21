@@ -50,8 +50,8 @@
 				<br>
                 <br>
 				
-				<input type="checkbox" name="allow_limited_access" value="1"> <?php echo tr('tab_metadata_video_allow_limited_access','Allow only videos with rating less than this for Limited Access group')?> &nbsp; 
-				<select name="filter_videos" <?php echo ("a"=="a"?'':'disabled="disabled"')?>>
+				<input type="checkbox" name="enable_video_filter" value="1"> <?php echo tr('tab_metadata_video_allow_limited_access','Allow only videos with rating less than this for Limited Access group')?> &nbsp; 
+				<select name="filter_videos" <?php echo ($serviio->licenseEdition=="PRO"?'':'disabled="disabled" title="Enabled with PRO License"')?>>
                     <?php foreach ($filterVideosByRating as $key=>$val) { ?>
 						<option value="<?php echo $key?>"<?php echo $key==$serviio->filterVideosByRating?" selected":""?>><?php echo $val?></option>
                     <?php } ?>
