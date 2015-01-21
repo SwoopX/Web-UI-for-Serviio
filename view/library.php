@@ -32,7 +32,6 @@
                         <th width="30px" align="center"><img src="images/icon_music.png" height="16" alt="<?php echo tr('tab_library_repository_table_share_audio','Share audio files')?>" title="<?php echo tr('tab_library_repository_table_share_audio','Share audio files')?>"></th>
                         <th width="30px" align="center"><img src="images/icon_camera.png" height="16" alt="<?php echo tr('tab_library_repository_table_share_images','Share image files')?>" title="<?php echo tr('tab_library_repository_table_share_images','Share image files')?>"></th>
                         <th width="30px" align="center"><img src="images/document-attribute-m.png" alt="<?php echo tr('tab_library_repository_table_retrieve_descriptive_metadata','Retrieve descriptive metadata')?>" title="<?php echo tr('tab_library_repository_table_retrieve_descriptive_metadata','Retrieve descriptive metadata')?>"></th>
-                        <th width="30px" align="center"><img src="images/arrow-circle.png" alt="<?php echo tr('tab_library_repository_table_scan_for_update','Scan for file additions and updates')?>" title="<?php echo tr('tab_library_repository_table_scan_for_update','Scan for file additions and updates')?>"></th>
                         <th class="scrollbarSpacer"></th>
                     </thead>
                     <tbody>
@@ -67,7 +66,6 @@
                                     <td width="30px"><input type="checkbox" name="<?php echo $type."_".$id?>" value="1"<?php echo array_search($type,$entry[1])===false?"":" checked"?>></td>
                                 <?php } ?>
                                 <td width="30px"><input type="checkbox" name="ONLINE_<?php echo $id?>" value="1"<?php echo $entry[2]=="false"?"":" checked"?>></td>
-                                <td width="30px"><input type="checkbox" name="SCAN_<?php echo $id?>" value="1"<?php echo $entry[3]=="false"?"":" checked"?>></td>
                                 <td>
                                     <input type="hidden" name="folder_<?php echo $id?>" value="<?php echo $id?>">
                                     <input type="hidden" name="name_<?php echo $id?>" value="<?php echo htmlspecialchars($entry[0])?>">
@@ -444,9 +442,6 @@
             </td>
             <td width="30px" align="center">
                 <input type="checkbox" value="1" name="ONLINE_0">
-            </td>
-            <td width="30px" align="center">
-                <input type="checkbox" value="1" name="SCAN_0" checked>
             </td>
             <td>
                 <input type="hidden" name="folder_0" value="0">
