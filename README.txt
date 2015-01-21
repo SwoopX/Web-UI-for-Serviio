@@ -9,18 +9,18 @@ TODO:
 - better notification of when new version of Web UI and Serviio exist
 
 CHANGELOG:
-- 1.0 - 3/1/2012 - Release of new version
-- 1.1 - 6/24/2012 - Updates to work with Serviio 1.0
-- 1.2 - 8/12/2012 - Final release for Serviio 1.0 including 1.0.1
-- 1.3 - 12/13/2012 - Added separate media browser URL in config.php
-                   - Added Serviio License Key import on About page
-                   - Added Serviidb.com support to add to Online Sources
-                   - Small number of code enhancements
-                   - Added new external library from datatables.net
-                   - Added jQuery UI custom Aristo Theme
-                   - Added refresh after exiting license upload dialog
-                   - Added Image tab under Metadata tab
-                   - Tested to work with Serviio 1.1
+- 1.0 - 3/1/2012     - Release of new version
+- 1.1 - 6/24/2012    - Updates to work with Serviio 1.0
+- 1.2 - 8/12/2012    - Final release for Serviio 1.0 including 1.0.1
+- 1.3 - 12/13/2012   - Added separate media browser URL in config.php
+                     - Added Serviio License Key import on About page
+                     - Added Serviidb.com support to add to Online Sources
+                     - Small number of code enhancements
+                     - Added new external library from datatables.net
+                     - Added jQuery UI custom Aristo Theme
+                     - Added refresh after exiting license upload dialog
+                     - Added Image tab under Metadata tab
+                     - Tested to work with Serviio 1.1
 - 1.4b1 - 04/05/2013 - Various code enhancements
                      - Language selection in console tab now working (fixed wrong cookie path)
                      - Improved multilanguage support, added new language tags
@@ -113,7 +113,9 @@ CHANGELOG:
                      - Fixed license upload
                      - Multilanguage updates
                      - Preparations for Serviio API update
-- 1.6 - 12/22/2014 - Updated to work with Serviio 1.5 (requires Serviio 1.5)
+- 1.6   - 12/22/2014 - Updated to work with Serviio 1.5 (requires Serviio 1.5)
+- 1.6.1 - 01/21/2015 - Fixed setting of video rating
+                     - Corrected removal of scanForUpdates from SharedFolder object
 
 ANNOUNCEMENTS:
 http://forum.serviio.org/viewtopic.php?f=17&t=12593
