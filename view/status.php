@@ -10,8 +10,8 @@
     <div id="svrstat1" class="tabcontent">
         <?php echo tr('tab_status_description','Start/Stop the UPnP/DLNA server. The actual Serviio process is not affected.')?><br>
         <br>
-        <input type="submit" name="start" id="start" value="<?php echo tr('button_start_server','Start server')?>" <?php echo $startDisabled?> onclick="return confirm('<?php echo tr('status_message_start_server','Are you sure you want to start the server?')?>');" class="ui-button ui-widget ui-state-default ui-corner-all btn-small" />
-        <input type="submit" name="stop" id="stop" value="<?php echo tr('button_stop_server','Stop server')?>" <?php echo $stopDisabled?> onclick="return confirm('<?php echo tr('status_message_stop_server','Are you sure you want to stop the server?')?>');" class="ui-button ui-widget ui-state-default ui-corner-all btn-small" />
+        <input type="submit" name="start" id="start" value="<?php echo tr('button_start_server','Start server')?>" onclick="return confirm('<?php echo tr('status_message_start_server','Are you sure you want to start the server?')?>');" class="ui-button ui-widget ui-state-default ui-corner-all btn-small" />
+        <input type="submit" name="stop" id="stop" value="<?php echo tr('button_stop_server','Stop server')?>" onclick="return confirm('<?php echo tr('status_message_stop_server','Are you sure you want to stop the server?')?>');" class="ui-button ui-widget ui-state-default ui-corner-all btn-small" />
     </div>
 </div>
 
@@ -109,6 +109,7 @@
     <button type="submit" id="renderer_refresh" name="renderer_refresh" onclick=indexes.expandit(0) class="ui-button ui-widget ui-state-default ui-corner-all btn-small" />
         <?php echo tr('button_refresh','Refresh')?>
     </button>
+    <br>
     <br>
     <button type="button" id="remove-renderer" name="remove-renderer" class="ui-button ui-widget ui-state-default ui-corner-all btn-small" />
         <?php echo tr('button_remove','Remove')?>
