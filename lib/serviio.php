@@ -21,8 +21,8 @@ class ServiioService extends RestRequest
     public $profiles;
     public $renderers;
     public $boundNICName;
-	public $rendererEnabledByDefault;
-	public $defaultAccessGroupId;
+    public $rendererEnabledByDefault;
+    public $defaultAccessGroupId;
 
     public $audioLocalArtExtractorEnabled;
     public $videoLocalArtExtractorEnabled;
@@ -42,12 +42,12 @@ class ServiioService extends RestRequest
     public $transcodingFolderLocation;
     public $transcodingEnabled;
     public $bestVideoQuality;
-	public $subtitlesEnabled;
-	public $embeddedSubtitlesExtractionEnabled;
-	public $hardSubsEnabled;
-	public $hardSubsForced;
-	public $preferredLanguage;
-	public $hardSubsCharacterEncoding;
+    public $subtitlesEnabled;
+    public $embeddedSubtitlesExtractionEnabled;
+    public $hardSubsEnabled;
+    public $hardSubsForced;
+    public $preferredLanguage;
+    public $hardSubsCharacterEncoding;
 
     public $numberOfCPUCores;
 
@@ -184,12 +184,8 @@ class ServiioService extends RestRequest
             $this->error = "Cannot get library status";
             return false;
         }
-        $libraryUpdatesCheckerRunning = (string)$xml->libraryUpdatesCheckerRunning;
-        $libraryAdditionsCheckerRunning = (string)$xml->libraryAdditionsCheckerRunning;
         $lastAddedFileName = (string)$xml->lastAddedFileName;
         $numberOfAddedFiles = (string)$xml->numberOfAddedFiles;
-        //return array("libraryUpdatesCheckerRunning"=>$libraryUpdatesCheckerRunning,
-        //             "libraryAdditionsCheckerRunning"=>$libraryAdditionsCheckerRunning,
         return array("lastAddedFileName"=>$lastAddedFileName,
                      "numberOfAddedFiles"=>$numberOfAddedFiles);
     }
@@ -363,7 +359,6 @@ class ServiioService extends RestRequest
                     }
                 }
                 $descriptiveMetadataSupported = (string)$item->descriptiveMetadataSupported;
-                //$scanForUpdates = (string)$item->scanForUpdates;
                 $accessGroupIds = array();
                 if ($this->licenseEdition != "FREE") {
                     foreach ($item->accessGroupIds as $accessGroupId) {
@@ -372,7 +367,6 @@ class ServiioService extends RestRequest
                         }
                     }
                 }
-                //$sf[$id] = array($folderPath, $supportedFileTypes, $descriptiveMetadataSupported, $scanForUpdates, $accessGroupIds);
 				$sf[$id] = array($folderPath, $supportedFileTypes, $descriptiveMetadataSupported, $accessGroupIds);
             }
         }
@@ -381,7 +375,6 @@ class ServiioService extends RestRequest
         $this->searchHiddenFiles = (string)$xml->searchHiddenFiles;
         $this->searchForUpdates = (string)$xml->searchForUpdates;
         $this->automaticLibraryUpdate = (string)$xml->automaticLibraryUpdate;
-        //$this->automaticLibraryUpdateInterval = (string)$xml->automaticLibraryUpdateInterval;
 
         // onlineRepositories
         foreach ($xml->onlineRepositories as $onlineRepositories) {
@@ -444,7 +437,6 @@ class ServiioService extends RestRequest
         $this->descriptiveMetadataExtractor = $descriptiveMetadataExtractor;
         $this->filterVideosByRating = $filterVideosByRating;
         return array($audioLocalArtExtractorEnabled, $videoLocalArtExtractorEnabled, $videoOnlineArtExtractorEnabled, $videoGenerateLocalThumbnailEnabled, $imageGenerateLocalThumbnailEnabled, $metadataLanguage, $descriptiveMetadataExtractor, $retrieveOriginalTitle, $filterVideosByRating);
-        //return array($audioLocalArtExtractorEnabled, $videoLocalArtExtractorEnabled, $videoOnlineArtExtractorEnabled, $videoGenerateLocalThumbnailEnabled, $imageGenerateLocalThumbnailEnabled, $metadataLanguage, $descriptiveMetadataExtractor, $retrieveOriginalTitle);
 
     }
 
@@ -697,7 +689,7 @@ class ServiioService extends RestRequest
         parent::setUrl('http://'.$this->host.':'.$this->port.'/rest/license-upload');
         parent::setVerb('PUT');
         parent::setRequestBody(stripcslashes($data));
-        parent::setContentType('Content-Type: plain/text;');
+        parent::setContentType('Content-Type: text/plain');
         parent::execute();
         return print_r(parent::getResponseBody());
     }
@@ -794,8 +786,6 @@ class ServiioService extends RestRequest
 
     /**
      */
-    //public function putMetadata($audioLocalArtExtractorEnabled, $videoLocalArtExtractorEnabled, $videoOnlineArtExtractorEnabled,
-    //$videoGenerateLocalThumbnailEnabled, $imageGenerateLocalThumbnailEnabled, $metadataLanguage, $descriptiveMetadataExtractor, $retrieveOriginalTitle)
     public function putMetadata($audioLocalArtExtractorEnabled, $videoLocalArtExtractorEnabled, $videoOnlineArtExtractorEnabled,
     $videoGenerateLocalThumbnailEnabled, $imageGenerateLocalThumbnailEnabled, $metadataLanguage, $descriptiveMetadataExtractor, $retrieveOriginalTitle, $filterVideosByRating)
     {
@@ -858,7 +848,6 @@ class ServiioService extends RestRequest
         if (isset($repo[0])) {
             foreach ($repo[0] as $id=>$entry) {
                 $Folder = $sharedFolders->appendChild($xmlDoc->createElement("sharedFolder"));
-                //if ($entry[4] != "new") {
 				if ($entry[3] != "new") {
                     $Folder->appendChild($xmlDoc->createElement("id", $id));
                 }
@@ -870,7 +859,6 @@ class ServiioService extends RestRequest
                 }
 
                 $Folder->appendChild($xmlDoc->createElement("descriptiveMetadataSupported", $entry[2]));
-                //$Folder->appendChild($xmlDoc->createElement("scanForUpdates", $entry[3]));
 
                 if (is_array($entry[4])) {
                     $accessGroupIds = $Folder->appendChild($xmlDoc->createElement("accessGroupIds"));
@@ -883,7 +871,6 @@ class ServiioService extends RestRequest
         $root->appendChild($xmlDoc->createElement("searchHiddenFiles", $this->searchHiddenFiles));
         $root->appendChild($xmlDoc->createElement("searchForUpdates", $this->searchForUpdates));
         $root->appendChild($xmlDoc->createElement("automaticLibraryUpdate", $this->automaticLibraryUpdate));
-        //$root->appendChild($xmlDoc->createElement("automaticLibraryUpdateInterval", $this->automaticLibraryUpdateInterval));
 
         /* Online Repositories */
         $sharedFolders = $root->appendChild($xmlDoc->createElement("onlineRepositories"));
@@ -894,11 +881,9 @@ class ServiioService extends RestRequest
                     $Folder->appendChild($xmlDoc->createElement("id", $id));
                 }
                 $Folder->appendChild($xmlDoc->createElement("repositoryType", $entry[0]));
-                //$Folder->appendChild($xmlDoc->createElement("contentUrl", str_replace("&", "&amp;", urldecode($entry[1]))));
                 $Folder->appendChild($xmlDoc->createElement("contentUrl", stripslashes(htmlspecialchars($entry[1]))));
                 $Folder->appendChild($xmlDoc->createElement("fileType", $entry[2]));
                 $Folder->appendChild($xmlDoc->createElement("thumbnailUrl", stripslashes(htmlspecialchars($entry[6]))));
-                //$Folder->appendChild($xmlDoc->createElement("repositoryName", str_replace("&", "&amp;", urldecode(stripslashes($entry[4])))));
                 $Folder->appendChild($xmlDoc->createElement("repositoryName", stripslashes(htmlspecialchars($entry[4]))));
                 $Folder->appendChild($xmlDoc->createElement("enabled", $entry[5]));
                 
