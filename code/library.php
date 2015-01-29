@@ -137,19 +137,6 @@
 
 	}
 	
-	elseif (isset($_GET["process"])) {
-		if ($_GET["process"] == "serviidb") {
-			include("../config.php");
-			include("../lib/RestRequest.inc.php");
-			include("../lib/serviidb.php");
-				
-			$serviidb = new ServiidbService($serviidb_url);
-			$tst = $serviidb->getVideo();
-			echo $tst;
-            return;
-		}
-	}
-	
 	$repo = $serviio->getRepository();
 	$serviio->getApplication();
 	$accesses = $serviio->getReferenceData('accessGroups');
