@@ -74,23 +74,7 @@ $appInfo = $serviio->getApplication();
 <script src="filetree/jqueryFileTree.js" type="text/javascript"></script>
 <link href="filetree/jqueryFileTree.css" rel="stylesheet" type="text/css" />
 
-<script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
-<style type="text/css" title="currentStyle">
-    @import "js/DataTables-1.9.4/media/css/demo_page.css";
-    @import "js/DataTables-1.9.4/media/css/demo_table.css";
-    @import "js/DataTables-1.9.4/extras/ColVis/media/css/ColVis.css";
-    .ColVis {
-        float: left;
-        margin-bottom: 0;
-    }
-</style>
-
-<script src="js/DataTables-1.9.4/extras/ColVis/media/js/ColVis.min.js" type="text/javascript"></script>
-
-
 <script type="text/javascript">
-
-var oTable = "";
 
 function callSelectionDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, treeview) {
     /*var height="410";
@@ -237,42 +221,25 @@ function updateOsSourceRow(newID, sel_row, action) {
         $("#onlinesource_"+newID).val("new");
     }
     
-    if (action == "addserviidb") {
-        var anSelected = fnGetSelected(oTable);
-        if ( anSelected.length !== 0 ) {
-            var sData = oTable.fnGetData(anSelected[0]);
-            $("input[name=os_url_"+newID+"]").val(sData['url']);
-            $("#os_name_v_"+newID).attr('title', sData['url']);
-            $("#os_name_"+newID).val(sData['name']);
-            $("#os_name_v_"+newID).text(sData['name']);
-            feedType = sData['resourceType'].toUpperCase();
-            mediaType = sData['mediaType'].toUpperCase();
-        } else {
-            return false;
-        }
-        var swState = "on";
-        $("#os_stat_"+sel_row).val("true");
+    $("input[name=os_url_"+newID+"]").val($("#sourceURL").val());
+    $("#os_name_v_"+newID).attr('title', $("#sourceURL").val());
+    $("#os_name_"+newID).val($("#name").val());
+    feedType = $("#onlineFeedType option:selected").val();
+    mediaType = $('input:radio[name=mediaType]:checked').val();
+    
+    if ($("#name").val()=="") {
+        $("#os_name_v_"+newID).text($("#sourceURL").val());
     } else {
-        $("input[name=os_url_"+newID+"]").val($("#sourceURL").val());
-        $("#os_name_v_"+newID).attr('title', $("#sourceURL").val());
-        $("#os_name_"+newID).val($("#name").val());
-        feedType = $("#onlineFeedType option:selected").val();
-        mediaType = $('input:radio[name=mediaType]:checked').val();
-        
-        if ($("#name").val()=="") {
-            $("#os_name_v_"+newID).text($("#sourceURL").val());
-        } else {
-            $("#os_name_v_"+newID).text($("#name").val());
-        }
-        
-        var swState = "off";
-        
-        if ($("#enabled").prop('checked')) {
-            $("#os_stat_"+sel_row).val("true");
-            swState = "on";
-        } else {
-            $("#os_stat_"+sel_row).val("false");
-        }
+        $("#os_name_v_"+newID).text($("#name").val());
+    }
+    
+    var swState = "off";
+    
+    if ($("#enabled").prop('checked')) {
+        $("#os_stat_"+sel_row).val("true");
+        swState = "on";
+    } else {
+        $("#os_stat_"+sel_row).val("false");
     }
     
     if (feedType == "FEED" || feedType == "RSS ATOM FEED") {
@@ -369,20 +336,6 @@ function serializeXmlNode(xmlNode) {
         return xmlNode.xml;
     }
     return "";
-}
-
-/* Get the rows which are currently selected */
-function fnGetSelected(oTableLocal) {
-    return oTableLocal.$('tr.row_selected');
-}
-
-function fnCreateSelect( aaaaData ) {
-	var r='<select><option value=""></option>', i, iLen=aaaaData.length;
-	for ( i=0 ; i<iLen ; i++ )
-	{
-		r += '<option value="'+aaaaData[i]+'">'+aaaaData[i]+'</option>';
-	}
-	return r+'</select>';
 }
 
 function parseUrl(url) {
@@ -1017,116 +970,6 @@ indexes.onajaxpageload=function(pageurl) {
                 callDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons);
                 return false;
             });
-            
-            
-            
-/*****************************
-                open: function(ev, ui) {
-                    $(":focus", $(this)).blur();
-                },
-                buttons: 
-            });
-*****************************/
-            $("#add_serviidb").click(function(e) {
-                e.preventDefault();
-                // set defaults and clear fields
-                // open dialog boxs
-                if (!($("#t1").hasClass("dataTable"))) {
-                    oTable = $("#t1").dataTable({
-                        "bLengthChange": false,
-                        "iDisplayLength": 7,
-                        "sPaginationType": "full_numbers",
-                        "bProcessing": true,
-                        "sAjaxSource": "code/library.php?process=serviidb",
-                        
-                        /*"fnServerData": function ( sSource, aoData, fnCallback ) {
-                            aoData.push( { "process": "serviidb" } );
-                            $.getJSON( sSource, aoData, function (json) {
-                                var test=[];                
-                                $.each(json['items'][0], function(index, value) {
-                                    test.push(index);
-                                });
-                    
-                                // Add a select menu for each TH element in the table footer 
-                                $("tfoot th").each( function ( i ) {
-                                var arr=[];
-                                    $.each(json['items'], function(j, obj) {
-                                        if (jQuery.inArray(obj[test[i]], arr) == -1) {
-                                            arr.push(obj[test[i]]);
-                                        }
-                                    });
-                                    this.innerHTML = fnCreateSelect( arr );
-                                    $('select', this).change( function () {
-                                        oTable.fnFilter( $(this).val(), i );
-                                    });
-                                });
-                                fnCallback(json)
-                            });
-                        },*/
-                        
-                        "sAjaxDataProp": "items",
-                        "sDom": '<"H"Cfr>t<"F"ip>',
-                        "aoColumns": [
-                            { "mData": "name" },
-                            { "mData": "region", "bVisible": false, "sWidth": "10px" },
-                            { "mData": "url", "bSearchable": false, "bVisible": false, "sWidth": "10px" },
-                            { "mData": "mediaType", "sWidth": "10px" },
-                            { "mData": "resourceType", "sWidth": "10px" },
-                            { "mData": "plugin", "bVisible": false, "sWidth": "10px" },
-                            { "mData": "language", "bVisible": false, "sWidth": "10px" },
-                            { "mData": "nid", "bVisible": false, "sWidth": "10px" },
-                            { "mData": "resolution", "bVisible": false, "sWidth": "10px" },
-                            { "mData": "quality", "bVisible": false, "sWidth": "10px" },
-                            { "mData": "reliability", "bVisible": false, "sWidth": "10px" },
-                            { "mData": "installCount", "sClass": "center", "sWidth": "10px" }
-                        ],
-                        /*"oLanguage": {
-                            "sSearch": "Search all columns:"
-                        }*/
-                    });
-                    
-                    $("#t1 tbody").click(function(event){
-                        $(oTable.fnSettings().aoData).each(function () {
-                            $(this.nTr).removeClass('row_selected');
-                        });
-                        $(event.target.parentNode).addClass('row_selected');
-                    });
-                }
-                
-                
-                oTable.fnFilter('');
-                $(oTable.fnSettings().aoData).each(function () {
-                    $(this.nTr).removeClass('row_selected');
-                });
-                
-                dialogDivTagId="Add_Serviidb_Item";
-                dialogHtml="";
-                dialogTitle = "<?php echo tr('dialog_add_serviidb_online_source','Add Online Source from ServiiDB')?>";
-                dialogButtons={
-                    "<?php echo tr('button_add','Add')?>": function() {
-                        var newOSId = parseInt($("#lastOSId").val()) + 1;
-                        var tableDivTagId = "libraryTableOnlineSources";
-                        var defaultRow = "default_os_row";
-                        
-                        cloneDefaultTableRow(defaultRow, tableDivTagId);
-                        updateAttributeNames(tableDivTagId, "id", newOSId);
-                        updateAttributeNames(tableDivTagId, "name", newOSId);
-                        updateOsSourceRow(newOSId, newOSId, "addserviidb");
-                        rowStyle("libraryTableOnlineSources");
-                        $("#lastOSId").val(newOSId);
-                        oTable.fnDestroy();
-                        $("#t1").removeClass("dataTable");
-                        $(this).dialog("close");
-                    },
-                    "<?php echo tr('button_cancel','Cancel')?>": function() {
-                        oTable.fnDestroy();
-                        $("#t1").removeClass("dataTable");
-                        $(this).dialog("close");
-                    }
-                }
-                callDialog("Add_Serviidb_Item", dialogHtml, dialogTitle, dialogButtons);            
-                return false;
-            });
 
             $("#onlineFeedType").change(function () {
                 if ($(this).val() == "LIVE_STREAM") {
@@ -1155,6 +998,18 @@ indexes.onajaxpageload=function(pageurl) {
             $("#debugInfo2").text("");
             $("#debugInfo2Date").text("");
             var $form = $("#metadataform");
+            
+            function toggleVideoFilter() {
+                if($("#enable_video_filter").is(':checked')) {
+                    $("#filter_videos").prop('disabled', false);
+                }
+                else {
+                    $("#filter_videos").prop('disabled', true);
+                }
+            }
+            
+            toggleVideoFilter();
+            $("#enable_video_filter").click(toggleVideoFilter);
 
             $("#rescan").click(function(e) {
                 $("#process").val("rescan");
