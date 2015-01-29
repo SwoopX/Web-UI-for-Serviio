@@ -4,7 +4,7 @@
 <br>
 <?php $appdata = $serviio->getApplication(); ?>
 <b>Serviio <?php $ret = $serviio->getApplication(); echo $ret['edition'];?> v <?php echo $ret['version'];?> <?php echo $ret['licenseType'];?> license</b>
-&nbsp;-&nbsp;<b>WebUI v <?php echo $webUIver;?></b>
+-&nbsp;<b>WebUI v <?php echo $webUIver;?></b>
 <br>
 <br>
 <?php
@@ -25,7 +25,7 @@
 </form>
 	<span id="savingMsg" class="savingMsg"></span>
 <br>
-<?php echo tr('tab_about_text','DLNA media streaming server<br>Copyright 2009-2013 Petr Nejedly<br>
+<?php echo tr('tab_about_text','DLNA media streaming server<br>Copyright 2009-2015 Petr Nejedly<br>
 Web UI for Serviio maintained by Sascha Eilers<br>
 <a href="http://serviio.org">http://serviio.org</a><br><br>
 This product may use movie metadata provided bt <a href="http://www.themoviedb.org/">TheMovieDb.org</a>, please consider contributing to the database.<br>
