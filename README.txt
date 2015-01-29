@@ -116,6 +116,12 @@ CHANGELOG:
 - 1.6   - 12/22/2014 - Updated to work with Serviio 1.5 (requires Serviio 1.5)
 - 1.6.1 - 01/21/2015 - Fixed setting of video rating
                      - Corrected removal of scanForUpdates from SharedFolder object
+- 1.6.2 - 01/29/2015 - FINALLY fixed license upload bug
+                     - Removed obsolete ServiiDB related code
+                     - Changed start/stop server button behavior
+                     - Fixed access display in library tab
+                     - Fixed rating filter selection
+                     - Removed obsolete code
 
 ANNOUNCEMENTS:
 http://forum.serviio.org/viewtopic.php?f=17&t=12593
