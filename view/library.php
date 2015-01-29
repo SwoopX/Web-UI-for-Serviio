@@ -50,7 +50,7 @@
                                             elseif($val=="Limited_Access") {
                                                 $val="Limited Access";
                                             }
-                                            echo '<option value="'.$key.'"'.($key==max($entry[4])?' selected':'').'>'.$val.'</option>';
+                                            echo '<option value="'.$key.'"'.($key==max($entry[3])?' selected':'').'>'.$val.'</option>';
                                         }
                                         echo '</select>';
                                     }
@@ -101,9 +101,6 @@
             <div style="padding-left: 3px;">
                 <button type="button" id="add_os" name="add_os" class="ui-button ui-widget ui-state-default ui-corner-all btn-small">
                     <?php echo tr('button_add','Add')?>
-                </button>&nbsp;&nbsp;
-                <button type="button" id="add_serviidb" name="add_serviidb" class="ui-button ui-widget ui-state-default ui-corner-all btn-small">
-                    <?php echo tr('button_add_Serviidb','Add from ServiiDB')?>
                 </button>&nbsp;&nbsp;
                 <button type="button" id="edit_os" name="edit_os" class="ui-button ui-widget ui-state-default ui-corner-all btn-small">
                     <?php echo tr('button_edit','Edit')?>
@@ -321,59 +318,6 @@
         <br>
         <span id="savingMsgDialog" class="savingMsg"></span>
     </div>
-</div>
-
-<div id="Add_Serviidb_Item">
-<table id="t1" width="100%" class="display noblink">
-<thead>
-    <tr>
-        <th><?php echo tr('tab_library_online_sources_serviidb_name','Name')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_region','Region')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_url','URL')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_mediatype','MediaType')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_resourcetype','ResourceType')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_plugin','Plugin')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_language','Language')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_nid','Nid')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_resolution','Resolution')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_quality','Quality')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_reliability','Reliability')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_installcount','InstallCount')?></th>
-    </tr>
-</thead>
-<tfoot>
-    <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <!--<th><?php echo tr('tab_library_online_sources_serviidb_name','Name')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_region','Region')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_url','URL')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_mediatype','MediaType')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_resourcetype','ResourceType')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_plugin','Plugin')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_language','Language')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_nid','Nid')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_resolution','Resolution')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_quality','Quality')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_reliability','Reliability')?></th>
-        <th><?php echo tr('tab_library_online_sources_serviidb_installcount','InstallCount')?></th>-->
-    </tr>
-</tfoot>
-<tbody>
-</tbody>
-</table>
-        </form>
-    </fieldset>
 </div>
 
 <div id="OSinitial"  style="display: none;">
