@@ -122,6 +122,9 @@ CHANGELOG:
                      - Fixed access display in library tab
                      - Fixed rating filter selection
                      - Removed obsolete code
+- 1.6.3 - 02/09/2015 - Fixed burned-in subtilte select box
+                     - Added path selection dialog
+                     - Added row style for render and library tab
 
 ANNOUNCEMENTS:
 http://forum.serviio.org/viewtopic.php?f=17&t=12593
