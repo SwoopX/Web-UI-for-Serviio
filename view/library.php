@@ -17,6 +17,9 @@
                 <button type="button" id="addLocalFolder" name="addLocalFolder" class="ui-button ui-widget ui-state-default ui-corner-all btn-small" />
                     <?php echo tr('button_add_local','Add local...')?>
                 </button>&nbsp;&nbsp;
+                <button type="button" id="addPath" name="addPath" class="ui-button ui-widget ui-state-default ui-corner-all btn-small" />
+                    <?php echo tr('button_add_path','Add path...')?>
+                </button>&nbsp;&nbsp;
                 <button type="button" id="removeFolder" name="removeFolder" class="ui-button ui-widget ui-state-default ui-corner-all btn-small" />
                     <?php echo tr('button_remove','Remove Selected')?>
                 </button>
@@ -26,7 +29,7 @@
                 <table id="libraryTableFolders" name="libraryTableFolders" border="0">
                     <thead align="center">
                         <th width="4"></th>
-                        <th width="608px" align="left"><?php echo tr('tab_library_repository_table_folder','Folder')?></th>
+                        <th width="578px" align="left"><?php echo tr('tab_library_repository_table_folder','Folder')?></th>
                         <th width="130px" align="center"><?php echo tr('tab_library_repository_table_access','Access')?></th>
                         <th width="30px" align="center"><img src="images/icon_video.png" height="16" alt="<?php echo tr('tab_library_repository_table_share_video','Share video files')?>" title="<?php echo tr('tab_library_repository_table_share_video','Share video files')?>"></th>
                         <th width="30px" align="center"><img src="images/icon_music.png" height="16" alt="<?php echo tr('tab_library_repository_table_share_audio','Share audio files')?>" title="<?php echo tr('tab_library_repository_table_share_audio','Share audio files')?>"></th>
@@ -38,7 +41,7 @@
                         <?php $midA = 1; foreach ($repo[0] as $id=>$entry) { if ($id>$midA) { $midA = $id; } ?>
                             <tr align="center" id="id_folder_<?php echo $id?>">
                                 <td width="4"></td>
-                                <td width="608px" align="left" id="path"><?php echo $entry[0]?></td>
+                                <td width="578px" align="left" id="path"><?php echo $entry[0]?></td>
                                 <td width="130px">
                                 <?php
                                     if ($serviio->licenseEdition=="PRO") {
@@ -368,7 +371,7 @@
     <table id="default_folder_row">
         <tr align="center" id="id_folder_0">
             <td width="4"></td>
-            <td width="608px" align="left" id="path_0"></td>
+            <td width="578px" align="left" id="path_0"></td>
             <td width="130px" align="center">
                 <select name="access_0">
                     <option value="1" selected>No Restriction</option>
