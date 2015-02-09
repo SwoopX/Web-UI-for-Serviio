@@ -76,18 +76,13 @@ $appInfo = $serviio->getApplication();
 
 <script type="text/javascript">
 
-function callSelectionDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, treeview) {
-    /*var height="410";
-    var width="570";
-    if ( dialogDivTagId == "Add_Serviidb_Item") {
-        var height="480";
-        var width="850";
-    }*/
+function callSelectionDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, dialogWidth, dialogHeight, treeview) {
+    
     $("#"+dialogDivTagId)
         .dialog({
             autoOpen: false,
-            height: 410,
-            width: 570,
+            height: dialogHeight,
+            width: dialogWidth,
             modal: true
         })
         .dialog('option', 'title', dialogTitle)
@@ -118,29 +113,22 @@ function callSelectionDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButt
         }
 };
 
-function callDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons) {
-    var height="410";
-    var width="570";
-    if ( dialogDivTagId == "Add_Serviidb_Item") {
-        height="480";
-        width="850";
-    }
+function callDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, dialogWidth, dialogHeight) {
+
     $("#"+dialogDivTagId)
         .dialog({
             autoOpen: false,
-            //height: 360,
-            //width: 620,
-            height: height,
-            width: width,
+            height: dialogHeight,
+            width: dialogWidth,
             modal: true
         })
         .dialog('option', 'title', dialogTitle)
         .dialog('option', 'buttons', dialogButtons);
         
-    if (dialogHtml != "") {
-        $("#"+dialogDivTagId).html(dialogHtml);  
-    }
-    $("#"+dialogDivTagId).dialog("open");
+        if (dialogHtml != "") {
+            $("#"+dialogDivTagId).html(dialogHtml);  
+        }
+        $("#"+dialogDivTagId).dialog("open");
 }
 
 function sendAjaxRequest(e, messageDivTagId, ajaxRequestData) {
@@ -174,7 +162,7 @@ function sendAjaxRequest(e, messageDivTagId, ajaxRequestData) {
                         script		: 'code/library.php'
                     });
                 }
-                if ($("#process").val() == "import" || $("#process").val() == "upload") { // || $(messageDivTagId) == "" || $(messageDivTagId) == "") {
+                if ($("#process").val() == "import" || $("#process").val() == "upload") {
                     setTimeout(function(){
                         location.reload();
                     }, 2000);
@@ -215,7 +203,7 @@ function updateOsSourceRow(newID, sel_row, action) {
     
     $("#osID").val(newID);
     
-    if (action == "add" || action == "addserviidb") {
+    if (action == "add") {
         $("#os_refresh_"+newID).html("&nbsp;New&nbsp;");
         $("#os_serviiolink_"+newID+" img").remove();
         $("#onlinesource_"+newID).val("new");
@@ -285,7 +273,6 @@ function updateOsSourceRow(newID, sel_row, action) {
 }
 
 function updateAttributeNames(tableDivTagId, attribute, newID) {
-    //$("tr:last", tableDivTagId).find("*["+attribute+"]").addBack().each(function(i, id) {
     $("#" + tableDivTagId + " tr:last").find("*["+attribute+"]").addBack().each(function(i, id) {
         if (jQuery.type($(this).attr(attribute)) !== "undefined") {
         $(this).attr(attribute, function(i, id) {
@@ -561,6 +548,8 @@ indexes.onajaxpageload=function(pageurl) {
                         }); 
                     }
                 });
+                
+            rowStyle("rendererTable");
             
             $("#remove-renderer").click(function(e) {
                 if (sourceData.length == 0) {
@@ -570,6 +559,8 @@ indexes.onajaxpageload=function(pageurl) {
                 dialogDivTagId = "dialog-remove-renderer";
                 dialogHtml = "<span class='ui-icon ui-icon-alert' style='float: left; margin: 0 7px 20px 0;'></span><?php echo tr('dialog_remove_renderer','This will remove the selected renderer. Are you sure?')?><br><br><br>" + sourceData.join("<br>");
                 dialogTitle = "<?php echo tr('dialog_remove_selected_renderer','Remove selected Renderer?')?>";
+                dialogWidth = 400;
+                dialogHeight = 260;
                 dialogButtons = {
                     "<?php echo tr('button_delete_renderer','Delete renderer')?>": function() {
                         $.each(sourceId, function( index, value ) {
@@ -581,7 +572,7 @@ indexes.onajaxpageload=function(pageurl) {
                         $(this).dialog("close");
                         }
                 }
-                callDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons);
+                callDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, dialogWidth, dialogHeight);
                 return false;
             });
         });
@@ -611,7 +602,6 @@ indexes.onajaxpageload=function(pageurl) {
             $("#debugInfo2").text("");
             $("#debugInfo2Date").text("");
             $("#OS_Item").hide();
-            $("#Add_Serviidb_Item").hide();
             var $form = $("#libraryform");
             
             $( "#libraryTableOnlineSources tbody" )
@@ -665,6 +655,7 @@ indexes.onajaxpageload=function(pageurl) {
                 });
             
             rowStyle("libraryTableOnlineSources");
+            rowStyle("libraryTableFolders");
 
             /* on-off switch for Online Sources */
             $(".os_switch").each(function(i, domEle) {
@@ -825,6 +816,8 @@ indexes.onajaxpageload=function(pageurl) {
                     dialogHtml="<span class='ui-icon ui-icon-alert' style='float: left; margin: 0 7px 20px 0;'></span><?php echo tr('dialog_remove_os_message','This will remove the selected online sources. Are you sure?')?><br><br><br>" + sourceData.join("<br>");
                     dialogTitle="<?php echo tr('dialog_remove_os','Remove online source')?>";
                 }
+                dialogWidth = 500;
+                dialogHeight = 300;
                 dialogButtons={
                     "<?php echo tr('button_delete_source','Delete source(s)')?>": function() {
                         $.each(sourceId, function( index, value ) {
@@ -836,7 +829,7 @@ indexes.onajaxpageload=function(pageurl) {
                         $(this).dialog("close");
                         }
                 };
-                callDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons);
+                callDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, dialogWidth, dialogHeight);
                 return false;
             });
 
@@ -845,12 +838,14 @@ indexes.onajaxpageload=function(pageurl) {
                 dialogDivTagId="library-dialog-form";
                 dialogHtml="<form accept-charset='utf-8'><fieldset><label for='selValue'><?php echo tr('dialog_selected_folder','Selected Folder')?>:&nbsp;</label><input type='text' id='selValue' name='selValue' readonly='readonly' size='70' /><div id='foldertree'></div></fieldset></form>";
                 dialogTitle = "<?php echo tr('dialog_select_folder','Select Folder')?>";
+                dialogWidth = 570;
+                dialogHeight = 410;
                 dialogButtons={
                     "<?php echo tr('button_select_folder','Select Folder')?>": function() {
                         var bValid = true;
                         var localPath = $(".sel").attr('href');
                         localPath = localPath.substr(0, localPath.length - 1);
-                        var newID = parseInt($("#lastFId").val()) + 1;
+                        var newID = parseInt($("#lastFId").val());
                         var tableDivTagId = "libraryTableFolders";
                         var defaultRow = "default_folder_row";
                         
@@ -871,7 +866,40 @@ indexes.onajaxpageload=function(pageurl) {
                         $(this).dialog("close");
                     }
                 }
-                callSelectionDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, "folder");
+                callSelectionDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, dialogWidth, dialogHeight, "folder");
+                return false;
+            });
+            
+            $("#addPath").click(function(e) {
+                e.preventDefault();
+                dialogDivTagId="library-dialog-form";
+                dialogHtml="<input type='text' id='selValue' name='selValue' size='70' />";
+                dialogTitle = "<?php echo tr('dialog_select_path','Enter a folder path to share')?>";
+                dialogWidth = 600;
+                dialogHeight = 130;
+                dialogButtons={
+                    "<?php echo tr('button_select_ok','Ok')?>": function() {
+                        var localPath = $("#selValue").val();
+                        var newID = parseInt($("#lastFId").val());
+                        var tableDivTagId = "libraryTableFolders";
+                        var defaultRow = "default_folder_row";
+                        
+                        cloneDefaultTableRow(defaultRow, tableDivTagId);
+                        updateAttributeNames(tableDivTagId, "id", newID);
+                        updateAttributeNames(tableDivTagId, "name", newID);
+                        rowStyle("libraryTableFolders");
+                        
+                        $("#path_"+newID).text(localPath);
+                        $("input[name=folder_"+newID+"]").val("new");
+                        $("input[name=name_"+newID+"]").val(localPath);
+                        $("#lastFId").val(newID + 1);
+                        $(this).dialog("close");
+                    },
+                    "<?php echo tr('button_cancel','Cancel')?>": function() {
+                        $(this).dialog("close");
+                    }
+                }
+                callDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, dialogWidth, dialogHeight);
                 return false;
             });
 
@@ -889,6 +917,8 @@ indexes.onajaxpageload=function(pageurl) {
                 dialogDivTagId = "OS_Item";
                 dialogHtml = "";
                 dialogTitle = "<?php echo tr('dialog_add_online_source','Add Online Source')?>";
+                dialogWidth = 610;
+                dialogHeight = 340;
                 dialogButtons = {
                         "<?php echo tr('button_add','Add')?>": function() {
                             var newOSId = parseInt($("#lastOSId").val()) + 1;
@@ -908,7 +938,7 @@ indexes.onajaxpageload=function(pageurl) {
                             $(this).dialog("close");
                         }
                 }
-                callDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons);
+                callDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, dialogWidth, dialogHeight);
                 return false;                
             });
             
@@ -950,6 +980,8 @@ indexes.onajaxpageload=function(pageurl) {
                 dialogDivTagId = "OS_Item";
                 dialogHtml = "";
                 dialogTitle = "<?php echo tr('dialog_edit_online_source','Edit Online Source')?>";
+                dialogWidth = 570;
+                dialogHeight = 410;
                 dialogButtons = {
                         "<?php echo tr('button_edit','Edit')?>": function() {
                             var osID = $("#osID").val();
@@ -967,7 +999,7 @@ indexes.onajaxpageload=function(pageurl) {
                             //return false;
                         }
                 }
-                callDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons);
+                callDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, dialogWidth, dialogHeight);
                 return false;
             });
 
@@ -1069,13 +1101,24 @@ indexes.onajaxpageload=function(pageurl) {
         var ajaxRequestData = {};
         var messageDivTagId="";
 
-
         $(document).ready(function(){
             $("#debugInfo").text("");
             $("#debugInfoDate").text("");
             $("#debugInfo2").text("");
             $("#debugInfo2Date").text("");
             var $form = $("#deliveryform");
+            
+            function toggleHardSubs() {
+                if($("#hardsubsenabled").is(':checked')) {
+                    $("#hardsubs").prop('disabled', false);
+                }
+                else {
+                    $("#hardsubs").prop('disabled', true);
+                }
+            }
+            
+            toggleHardSubs();
+            $("#hardsubsenabled").click(toggleHardSubs);
             
             $("#submit").click(function(e) {
 				$("#process").val("save");
@@ -1103,6 +1146,8 @@ indexes.onajaxpageload=function(pageurl) {
                 dialogDivTagId="delivery-dialog-form";
                 dialogHtml="<form accept-charset='utf-8'><fieldset><label for='selValue'><?php echo tr('dialog_selected_folder','Selected Folder')?>:&nbsp;</label><input type='text' id='selValue' name='selValue' readonly='readonly' size='70' /><div id='foldertree'></div></fieldset></form>";
                 dialogTitle="<?php echo tr('dialog_select_folder','Select Folder')?>";
+                dialogWidth = 570;
+                dialogHeight = 410;
                 dialogButtons={
                     "<?php echo tr('button_select_folder','Select Folder')?>": function() {
                         var tmp = $(".sel").attr('href');
@@ -1115,7 +1160,7 @@ indexes.onajaxpageload=function(pageurl) {
                         $(this).dialog("close");
                     }
                 }
-                callSelectionDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, "folder");
+                callSelectionDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, dialogWidth, dialogHeight, "folder");
                 return false;
             });
         });
@@ -1307,6 +1352,8 @@ indexes.onajaxpageload=function(pageurl) {
                 dialogDivTagId="logs-dialog-form";
                 dialogHtml="<form accept-charset='utf-8'><fieldset><label for='selValue'><?php echo tr('dialog_select_file','Selected file')?>:&nbsp;</label><input type='text' id='selValue' name='selValue' readonly='readonly' size='70' /><div id='filetree'></div></fieldset></form>";
                 dialogTitle="<?php echo tr('dialog_select_log_file','Select Serviio log file')?>";
+                dialogWidth = 570;
+                dialogHeight = 410;
                 dialogButtons={
                     "<?php echo tr('button_select_file','Select File')?>": function(fileName) {
                         $("#logfile").val($("#selValue").val());
@@ -1318,7 +1365,7 @@ indexes.onajaxpageload=function(pageurl) {
                         $(this).dialog("close");
                     }
                 }
-                callSelectionDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, "file");
+                callSelectionDialog(dialogDivTagId, dialogHtml, dialogTitle, dialogButtons, dialogWidth, dialogHeight, "file");
                 return false;
             });
         });	
