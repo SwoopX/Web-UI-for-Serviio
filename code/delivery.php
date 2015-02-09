@@ -19,8 +19,8 @@
 
 			$subtitles = getPostVar("subtitles","0")==1?"true":"false";
 			$subtitlesextraction = getPostVar("subtitlesextraction","0")==1?"true":"false";
-			$hardsubsenabled = getPostVar("hardsubsenabled","0")==1&&(getPostVar("hardsubs","")=="enabled"||getPostVar("hardsubs","")=="")?"true":"false";
-			$hardsubsforced = getPostVar("hardsubsenabled","0")==1&&getPostVar("hardsubs","0")=="forced"?"true":"false";
+            $hardsubsenabled = getPostVar("hardsubs","0")=="enabled"?"true":"false";
+			$hardsubsforced = getPostVar("hardsubs","0")=="forced"?"true":"false";
 			$language = getPostVar("language","");
 			$characterEncoding = getPostVar("characterEncoding","");
 
