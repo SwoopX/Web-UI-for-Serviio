@@ -63,8 +63,8 @@
             <br>
             <input type="checkbox" name="subtitlesextraction" value="1"<?php echo $serviio->embeddedSubtitlesExtractionEnabled=="true"?" checked":""?>> <?php echo tr('tab_delivery_subtitles_embedded_subtitles_extraction_enabled','Enable extraction of subtitles embedded in video files')?>
             <br>
-            <input type="checkbox" name="hardsubsenabled" value="1"<?php echo $serviio->hardSubsEnabled=="true"||$serviio->hardSubsForced=="true"?" checked":""?>> <?php echo tr('tab_delivery_subtitles_hard_subs_enabled','Enable burned-in subtitles')?>
-				<select id="hardSubs" name="hardsubs" <?php echo $serviio->hardSubsEnabled=="false"&&$serviio->hardSubsForced=="false"?"disabled":""?>>
+            <input type="checkbox" name="hardsubsenabled" id="hardsubsenabled" value="1"<?php echo $serviio->hardSubsEnabled=="true"||$serviio->hardSubsForced=="true"?" checked":""?>> <?php echo tr('tab_delivery_subtitles_hard_subs_enabled','Enable burned-in subtitles')?>
+				<select id="hardsubs" name="hardsubs">
 					<option value="enabled"<?php echo $serviio->hardSubsEnabled=="true"?" selected":""?>><?php echo tr('tab_delivery_subtitles_hard_subs_required','Only when required')?></option>
 					<option value="forced"<?php echo $serviio->hardSubsForced=="true"?" selected":""?>><?php echo tr('tab_delivery_subtitles_hard_subs_always','Always')?></option>
 				</select>
