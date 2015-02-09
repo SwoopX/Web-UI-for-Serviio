@@ -86,7 +86,6 @@
 			$serviio->searchHiddenFiles = getPostVar("addhidden", "0")==1?"true":"false";
 			$serviio->searchForUpdates = getPostVar("searchupdates", "0")==1?"true":"false";
 			$serviio->automaticLibraryUpdate = getPostVar("autoupdate", "0")==1?"true":"false";
-			//$serviio->automaticLibraryUpdateInterval = getPostVar("minutes", "0");
 
 			$serviio->maxNumberOfItemsForOnlineFeeds = getPostVar("maxfeeditems", "20");
 			$serviio->onlineFeedExpiryInterval = getPostVar("feedexpiry", "10");
