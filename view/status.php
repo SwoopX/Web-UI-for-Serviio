@@ -29,9 +29,9 @@
         <th></th>
         <th width="20" align="center"></th>
         <th width="130" align="left"><?php echo tr('tab_status_renderer_table_ipaddress','IP Address')?></th>
-        <th width="242" align="left"><?php echo tr('tab_status_renderer_table_device_name','Device Name')?></th>
+        <th width="212" align="left"><?php echo tr('tab_status_renderer_table_device_name','Device Name')?></th>
         <th width="60" align="center"><?php echo tr('tab_status_renderer_table_enabled','Enabled')?></th>
-        <th width="130" align="center"><?php echo tr('tab_status_renderer_table_access','Access')?></th>
+        <th width="160" align="center"><?php echo tr('tab_status_renderer_table_access','Access')?></th>
         <th width="310" align="left"><?php echo tr('tab_status_renderer_table_profile','Profile')?></th>
         <th class="scrollbarSpacer"></th>
     </thead>
@@ -47,7 +47,7 @@
         </td>
         <td width="20" align="center"><?php echo status_icon($renderer[3])?></td>
         <td width="130" align="left"><?php echo $renderer[0]?></td>
-        <td width="242" align="left"><?php echo $renderer[1]?></td>
+        <td width="212" align="left"><?php echo $renderer[1]?></td>
         <td width="60" align="center">
             <div class="os_switch" id="enabled_<?php echo $id?>" style="cursor: pointer; ">
                 <div class="iphone_switch_container" style="height:27px; width:94px; position: relative; overflow: hidden">
@@ -55,14 +55,14 @@
                 </div>
             </div>
         </td>
-        <td width="130" align="center">
+        <td width="160" align="center">
             <select name="access_<?php echo $id?>" <?php echo ($serviio->licenseEdition=="PRO"?'':'disabled="disabled" title="Enabled with PRO License"')?>>
             <?php foreach ($accesses as $key=>$val) {
                 if($val=="No_Restriction") {
-                    $val="No Restriction";
+                    $val=tr('accessGroupFull','No Restriction');
                 }
                 elseif($val=="Limited_Access") {
-                    $val="Limited Access";
+                    $val=tr('accessGroupLimited','Limited Access');
                 } ?>
                 <option value="<?php echo $key?>"<?php echo $key==$renderer[5]?" selected":""?>><?php echo $val?></option>
             <?php } ?>
@@ -92,10 +92,10 @@
 				<select name="defaultAccessGroupId" <?php echo ($serviio->licenseEdition=="PRO"?'':'disabled="disabled" title="Enabled with PRO License"')?>>
 					<?php foreach ($accesses as $key=>$val) {
 						if($val=="No_Restriction") {
-							$val="No Restriction";
+							$val=tr('accessGroupFull','No Restriction');
 						}
 						elseif($val=="Limited_Access") {
-							$val="Limited Access";
+							$val=tr('accessGroupLimited','Limited Access');
 						} ?>
 						<option value="<?php echo $key?>"<?php echo $key==$statusResponse["defaultAccessGroupId"]?" selected":""?>><?php echo $val?></option>
 					<?php } ?>

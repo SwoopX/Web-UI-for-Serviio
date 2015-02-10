@@ -30,7 +30,7 @@
                     <thead align="center">
                         <th width="4"></th>
                         <th width="578px" align="left"><?php echo tr('tab_library_repository_table_folder','Folder')?></th>
-                        <th width="130px" align="center"><?php echo tr('tab_library_repository_table_access','Access')?></th>
+                        <th width="160px" align="center"><?php echo tr('tab_library_repository_table_access','Access')?></th>
                         <th width="30px" align="center"><img src="images/icon_video.png" height="16" alt="<?php echo tr('tab_library_repository_table_share_video','Share video files')?>" title="<?php echo tr('tab_library_repository_table_share_video','Share video files')?>"></th>
                         <th width="30px" align="center"><img src="images/icon_music.png" height="16" alt="<?php echo tr('tab_library_repository_table_share_audio','Share audio files')?>" title="<?php echo tr('tab_library_repository_table_share_audio','Share audio files')?>"></th>
                         <th width="30px" align="center"><img src="images/icon_camera.png" height="16" alt="<?php echo tr('tab_library_repository_table_share_images','Share image files')?>" title="<?php echo tr('tab_library_repository_table_share_images','Share image files')?>"></th>
@@ -38,20 +38,20 @@
                         <th class="scrollbarSpacer"></th>
                     </thead>
                     <tbody>
-                        <?php $midA = 1; foreach ($repo[0] as $id=>$entry) { if ($id>$midA) { $midA = $id; } ?>
+                        <?php $midA = 1; foreach ($repo[0] as $id=>$entry) { if ($id>=$midA) { $midA = $id; } ?>
                             <tr align="center" id="id_folder_<?php echo $id?>">
                                 <td width="4"></td>
                                 <td width="578px" align="left" id="path"><?php echo $entry[0]?></td>
-                                <td width="130px">
+                                <td width="160px">
                                 <?php
                                     if ($serviio->licenseEdition=="PRO") {
                                         echo '<select name="access_'.$id.'">';
                                         foreach ($accesses as $key=>$val) {
                                             if($val=="No_Restriction") {
-                                                $val="No Restriction";
+                                                $val=tr('accessGroupFull','No Restriction');
                                             }
                                             elseif($val=="Limited_Access") {
-                                                $val="Limited Access";
+                                                $val=tr('accessGroupLimited','Limited Access');
                                             }
                                             echo '<option value="'.$key.'"'.($key==max($entry[3])?' selected':'').'>'.$val.'</option>';
                                         }
@@ -59,7 +59,7 @@
                                     }
                                     else {
                                         echo '<select name="access_'.$id.'" disabled="disabled" title="Only enabled with PRO license">';
-                                        echo '<option value="1">No_Restrictions</option>';
+                                        echo '<option value="1">'?><?php echo tr('accessGroupFull','No Restriction')?><?php '</option>';
                                         echo '</select>';
                                         echo '<input type="hidden" id="access_'.$id.'" name="access_'.$id.'" value="1">';
                                     }
@@ -126,7 +126,7 @@
                     <th width="120px" align="left"><?php echo tr('tab_library_online_sources_repository_table_type','Type')?></th>
                     <th width="80px" align="left"><?php echo tr('tab_library_online_sources_repository_table_mediatype','Media Type')?></th>
                     <th width="60px" align="center"><?php echo tr('tab_library_online_sources_repository_table_enabled','Enabled')?></th>
-                    <th width="130px" align="center"><?php echo tr('tab_library_online_sources_repository_table_access','Access')?></th>
+                    <th width="160px" align="center"><?php echo tr('tab_library_online_sources_repository_table_access','Access')?></th>
                     <th width="60px" align="center"><?php echo tr('tab_library_online_sources_repository_table_refresh','Refresh')?></th>
                     <th width="80px" align="center"><?php echo tr('tab_library_online_sources_repository_table_serviiolink','ServiioLink')?></th>
                     <th width="340px" align="left"><?php echo tr('tab_library_online_sources_repository_table_url','Name / URL')?></th>
@@ -161,16 +161,16 @@
                             </div>
                         </div>
                     </td>
-                    <td width="130px" align="center">
+                    <td width="160px" align="center">
                         <?php
                             if ($serviio->licenseEdition=="PRO") {
                                 echo '<select name="os_access_'.$id.'">';
                                 foreach ($accesses as $key=>$val) {
                                     if($val=="No_Restriction") {
-                                        $val="No Restriction";
+                                        $val=tr('accessGroupFull','No Restriction');
                                     }
                                     elseif($val=="Limited_Access") {
-                                        $val="Limited Access";
+                                        $val=tr('accessGroupLimited','Limited Access');
                                     }
                                     echo '<option value="'.$key.'"'.($key==max($entry[6])?' selected':'').'>'.$val.'</option>';
                                 }
@@ -178,7 +178,7 @@
                             }
                             else {
                                 echo '<select name="os_access_'.$id.'" disabled="disabled" title="Only enabled with PRO license">';
-                                echo '<option value="1">No Restrictions</option>';
+                                echo '<option value="1">'?><?php echo tr('accessGroupFull','No Restriction')?><?php '</option>';
                                 echo '<input type="hidden" id="os_access_'.$id.'" name="os_access_'.$id.'" value="1">';
                                 echo '</select>';
                             }
@@ -340,10 +340,10 @@
                     </div>
                 </div>
             </td>
-            <td width="130px" align="center">
+            <td width="160px" align="center">
                 <select name="os_access_0">
-                    <option value="1" selected>No Restriction</option>
-                    <option value="2" >Limited Access</option>
+                    <option value="1" selected><?php echo tr('accessGroupFull','No Restriction')?></option>
+                    <option value="2" ><?php echo tr('accessGroupLimited','Limited Access')?></option>
                 </select>
             </td>
             <td width="60px" align="center"><span id="os_refresh_0">
@@ -372,10 +372,10 @@
         <tr align="center" id="id_folder_0">
             <td width="4"></td>
             <td width="578px" align="left" id="path_0"></td>
-            <td width="130px" align="center">
+            <td width="160px" align="center">
                 <select name="access_0">
-                    <option value="1" selected>No Restriction</option>
-                    <option value="2" >Limited Access</option>
+                    <option value="1" selected><?php echo tr('accessGroupFull','No Restriction')?></option>
+                    <option value="2" ><?php echo tr('accessGroupLimited','Limited Access')?></option>
                 </select>
             </td>
             <td width="30px" align="center">
