@@ -857,7 +857,7 @@ indexes.onajaxpageload=function(pageurl) {
                         $("#path_"+newID).text(localPath);
                         $("input[name=folder_"+newID+"]").val("new");
                         $("input[name=name_"+newID+"]").val(localPath);
-                        $("#lastFId").val(newID + 1);
+                        $("#lastFId").val(newID);
                         $("#foldertree").remove();
                         $(this).dialog("close");
                     },
@@ -880,7 +880,7 @@ indexes.onajaxpageload=function(pageurl) {
                 dialogButtons={
                     "<?php echo tr('button_select_ok','Ok')?>": function() {
                         var localPath = $("#selValue").val();
-                        var newID = parseInt($("#lastFId").val());
+                        var newID = parseInt($("#lastFId").val()) + 1;
                         var tableDivTagId = "libraryTableFolders";
                         var defaultRow = "default_folder_row";
                         
@@ -892,7 +892,7 @@ indexes.onajaxpageload=function(pageurl) {
                         $("#path_"+newID).text(localPath);
                         $("input[name=folder_"+newID+"]").val("new");
                         $("input[name=name_"+newID+"]").val(localPath);
-                        $("#lastFId").val(newID + 1);
+                        $("#lastFId").val(newID);
                         $(this).dialog("close");
                     },
                     "<?php echo tr('button_cancel','Cancel')?>": function() {
