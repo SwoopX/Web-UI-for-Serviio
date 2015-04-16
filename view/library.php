@@ -38,7 +38,7 @@
                         <th class="scrollbarSpacer"></th>
                     </thead>
                     <tbody>
-                        <?php $midA = 1; foreach ($repo[0] as $id=>$entry) { if ($id==1) { $midA = 2; } elseif ($id>$midA) { $midA = $id; } ?>
+                        <?php $midA = 0; foreach ($repo[0] as $id=>$entry) { if ($id>$midA) { $midA = $id; } ?>
                             <tr align="center" id="id_folder_<?php echo $id?>">
                                 <td width="4"></td>
                                 <td width="578px" align="left" id="path"><?php echo $entry[0]?></td>
