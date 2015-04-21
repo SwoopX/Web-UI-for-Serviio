@@ -845,7 +845,7 @@ indexes.onajaxpageload=function(pageurl) {
                         var bValid = true;
                         var localPath = $(".sel").attr('href');
                         localPath = localPath.substr(0, localPath.length - 1);
-                        var newID = parseInt($("#lastFId").val());
+                        var newID = parseInt($("#lastFId").val()) + 1;
                         var tableDivTagId = "libraryTableFolders";
                         var defaultRow = "default_folder_row";
                         
