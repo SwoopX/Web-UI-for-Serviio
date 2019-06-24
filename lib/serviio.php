@@ -21,8 +21,8 @@ class ServiioService extends RestRequest
     public $profiles;
     public $renderers;
     public $boundNICName;
-	public $rendererEnabledByDefault;
-	public $defaultAccessGroupId;
+    public $rendererEnabledByDefault;
+    public $defaultAccessGroupId;
 
     public $audioLocalArtExtractorEnabled;
     public $videoLocalArtExtractorEnabled;
@@ -32,6 +32,7 @@ class ServiioService extends RestRequest
     public $metadataLanguage;
     public $descriptiveMetadataExtractor;
     public $retrieveOriginalTitle;
+    public $filterVideosByRating;
 
     public $descriptiveMetadataExtractors;
     public $browsingCategoriesLanguages;
@@ -41,12 +42,12 @@ class ServiioService extends RestRequest
     public $transcodingFolderLocation;
     public $transcodingEnabled;
     public $bestVideoQuality;
-	public $subtitlesEnabled;
-	public $embeddedSubtitlesExtractionEnabled;
-	public $hardSubsEnabled;
-	public $hardSubsForced;
-	public $preferredLanguage;
-	public $hardSubsCharacterEncoding;
+    public $subtitlesEnabled;
+    public $embeddedSubtitlesExtractionEnabled;
+    public $hardSubsEnabled;
+    public $hardSubsForced;
+    public $preferredLanguage;
+    public $hardSubsCharacterEncoding;
 
     public $numberOfCPUCores;
 
@@ -65,6 +66,7 @@ class ServiioService extends RestRequest
     public $checkForUpdates;
 
     public $licenseEdition;
+    public $licenseType;
 
     /**
      */
@@ -102,7 +104,6 @@ class ServiioService extends RestRequest
             $accessGroupId = (string)$item->accessGroupId;
             $this->renderers[$uuid] = array($ipAddress, $name, $profileId, $status, $enabled, $accessGroupId);
         }
-        //return array("serverStatus"=>$serverStatus, "renderers"=>$this->renderers, "bound_nic"=>$bound_nic);
         return array("serverStatus"=>$serverStatus, "renderers"=>$this->renderers, "boundNICName"=>$boundNICName, "rendererEnabledByDefault"=>$rendererEnabledByDefault, "defaultAccessGroupId"=>$defaultAccessGroupId);
     }
 
@@ -183,13 +184,9 @@ class ServiioService extends RestRequest
             $this->error = "Cannot get library status";
             return false;
         }
-        $libraryUpdatesCheckerRunning = (string)$xml->libraryUpdatesCheckerRunning;
-        $libraryAdditionsCheckerRunning = (string)$xml->libraryAdditionsCheckerRunning;
         $lastAddedFileName = (string)$xml->lastAddedFileName;
         $numberOfAddedFiles = (string)$xml->numberOfAddedFiles;
-        return array("libraryUpdatesCheckerRunning"=>$libraryUpdatesCheckerRunning,
-                     "libraryAdditionsCheckerRunning"=>$libraryAdditionsCheckerRunning,
-                     "lastAddedFileName"=>$lastAddedFileName,
+        return array("lastAddedFileName"=>$lastAddedFileName,
                      "numberOfAddedFiles"=>$numberOfAddedFiles);
     }
 
@@ -249,6 +246,9 @@ class ServiioService extends RestRequest
 			case "networkInterfaces":
 				$this->boundNICName = $result;					//status.php
 				break;
+            case "ratings":
+				$this->ratings = $result;	    				//metadata.php
+				break;
 		}
 		
         return $result;
@@ -297,6 +297,8 @@ class ServiioService extends RestRequest
         $updateVersionAvailable = (string)$xml->updateVersionAvailable;
 
         $edition = (string)$xml->edition;
+        //$cdsAnonymousEnabled = (string)$xml->cdsAnonymousEnabled;
+        
         $this->lic = array();
         // need to init these variables - thanks Strupniveral
         $id = "";
@@ -314,6 +316,8 @@ class ServiioService extends RestRequest
 
         // record license type as global
         $this->licenseEdition = $edition;
+        $this->licenseType = $type;
+        //$this->cdsAnonymousEnabled = $cdsAnonymousEnabled;
 
         return array(
                      "version"=>$currentVersion,
@@ -323,7 +327,8 @@ class ServiioService extends RestRequest
                      "licenseType"=>$type,
                      "licenseName"=>$name,
                      "licenseEmail"=>$email,
-                     "licenseExpiresInMinutes"=>$expiresInMinutes
+                     "licenseExpiresInMinutes"=>$expiresInMinutes//,
+                     //"cdsAnonymousEnabled"=>$cdsAnonymousEnabled
                      );
     }
 
@@ -354,7 +359,6 @@ class ServiioService extends RestRequest
                     }
                 }
                 $descriptiveMetadataSupported = (string)$item->descriptiveMetadataSupported;
-                $scanForUpdates = (string)$item->scanForUpdates;
                 $accessGroupIds = array();
                 if ($this->licenseEdition != "FREE") {
                     foreach ($item->accessGroupIds as $accessGroupId) {
@@ -363,7 +367,7 @@ class ServiioService extends RestRequest
                         }
                     }
                 }
-                $sf[$id] = array($folderPath, $supportedFileTypes, $descriptiveMetadataSupported, $scanForUpdates, $accessGroupIds);
+				$sf[$id] = array($folderPath, $supportedFileTypes, $descriptiveMetadataSupported, $accessGroupIds);
             }
         }
         $repo[0] = $sf;
@@ -371,7 +375,6 @@ class ServiioService extends RestRequest
         $this->searchHiddenFiles = (string)$xml->searchHiddenFiles;
         $this->searchForUpdates = (string)$xml->searchForUpdates;
         $this->automaticLibraryUpdate = (string)$xml->automaticLibraryUpdate;
-        $this->automaticLibraryUpdateInterval = (string)$xml->automaticLibraryUpdateInterval;
 
         // onlineRepositories
         foreach ($xml->onlineRepositories as $onlineRepositories) {
@@ -423,6 +426,7 @@ class ServiioService extends RestRequest
         $metadataLanguage = (string)$xml->metadataLanguage;
         $retrieveOriginalTitle = (string)$xml->retrieveOriginalTitle;
         $descriptiveMetadataExtractor = (string)$xml->descriptiveMetadataExtractor;
+        $filterVideosByRating = (string)$xml->filterVideosByRating;
         $this->audioLocalArtExtractorEnabled = $audioLocalArtExtractorEnabled;
         $this->videoLocalArtExtractorEnabled = $videoLocalArtExtractorEnabled;
         $this->videoOnlineArtExtractorEnabled = $videoOnlineArtExtractorEnabled;
@@ -431,7 +435,9 @@ class ServiioService extends RestRequest
         $this->metadataLanguage = $metadataLanguage;
         $this->retrieveOriginalTitle = $retrieveOriginalTitle;
         $this->descriptiveMetadataExtractor = $descriptiveMetadataExtractor;
-        return array($audioLocalArtExtractorEnabled, $videoLocalArtExtractorEnabled, $videoOnlineArtExtractorEnabled, $videoGenerateLocalThumbnailEnabled, $imageGenerateLocalThumbnailEnabled, $metadataLanguage, $descriptiveMetadataExtractor, $retrieveOriginalTitle);
+        $this->filterVideosByRating = $filterVideosByRating;
+        return array($audioLocalArtExtractorEnabled, $videoLocalArtExtractorEnabled, $videoOnlineArtExtractorEnabled, $videoGenerateLocalThumbnailEnabled, $imageGenerateLocalThumbnailEnabled, $metadataLanguage, $descriptiveMetadataExtractor, $retrieveOriginalTitle, $filterVideosByRating);
+
     }
 
     /**
@@ -530,17 +536,33 @@ class ServiioService extends RestRequest
             return false;
         }
 		
-	$i = 0;
-		
-	$onlinePlugin = array();
-	foreach ($xml->onlinePlugin as $entry) {
-		$name = (string)$entry->name; // Plugin name
-		$version = (string)$entry->version; // Plugin version
-		$onlinePlugin[$i] = array($name, $version);
-		$i = $i + 1;
-	}
+		$i = 0;
+			
+		$onlinePlugin = array();
+		foreach ($xml->onlinePlugin as $entry) {
+			$name = (string)$entry->name; // Plugin name
+			$version = (string)$entry->version; // Plugin version
+			$onlinePlugin[$i] = array($name, $version);
+			$i = $i + 1;
+		}
                
         return $onlinePlugin;
+    }
+	
+	/**
+     */
+	public function getImportExport()
+    {
+        parent::setUrl('http://'.$this->host.':'.$this->port.'/rest/import-export/online');
+        parent::setVerb('GET');
+        parent::execute();
+        $xml = simplexml_load_string(parent::getResponseBody());
+        if ($xml===false) {
+            $this->error = "Cannot get online repository backup";
+            return false;
+        }
+       
+        return print_r(parent::getResponseBody());
     }
 
     /**
@@ -556,7 +578,9 @@ class ServiioService extends RestRequest
         //create the root element
         $root = $xmlDoc->appendChild($xmlDoc->createElement("status"));
 		
-		$root->appendChild($xmlDoc->createElement("boundNICName", $bound_nic));
+		if($bound_nic!="") {
+            $root->appendChild($xmlDoc->createElement("boundNICName", $bound_nic));
+        }
 		$root->appendChild($xmlDoc->createElement("rendererEnabledByDefault", $rendererEnabledByDefault));
 		$root->appendChild($xmlDoc->createElement("defaultAccessGroupId", $defaultAccessGroupId));
 
@@ -606,7 +630,7 @@ class ServiioService extends RestRequest
         $root->appendChild($xmlDoc->createElement("remoteUserPassword", $passwd));
         $root->appendChild($xmlDoc->createElement("preferredRemoteDeliveryQuality", $quality));
 		$root->appendChild($xmlDoc->createElement("portMappingEnabled", $mapping));
-		$root->appendChild($xmlDoc->createElement("externalAddress", $address));
+		$root->appendChild($xmlDoc->createElement("externalAddress",  stripslashes(htmlspecialchars($address))));
 
         /*
         header("Content-Type: text/plain");
@@ -664,11 +688,10 @@ class ServiioService extends RestRequest
         parent::flush();
         parent::setUrl('http://'.$this->host.':'.$this->port.'/rest/license-upload');
         parent::setVerb('PUT');
-        parent::setRequestBody($data);
-        parent::setContentType('Content-Type: plain/text;');
+        parent::setRequestBody(stripcslashes($data));
+        parent::setContentType('Content-Type: text/plain');
         parent::execute();
-        $x = simplexml_load_string(parent::getResponseBody());
-        return $x->errorCode;
+        return print_r(parent::getResponseBody());
     }
 
     /**
@@ -727,7 +750,9 @@ class ServiioService extends RestRequest
 
         // create sub elements for transcoding
         $deliveryTranscoding->appendChild($xmlDoc->createElement("audioDownmixing", $audio));
-        $deliveryTranscoding->appendChild($xmlDoc->createElement("threadsNumber", $cores));
+        if($cores!="") {
+            $deliveryTranscoding->appendChild($xmlDoc->createElement("threadsNumber", $cores));
+        }
         $deliveryTranscoding->appendChild($xmlDoc->createElement("transcodingFolderLocation", $location));
         $deliveryTranscoding->appendChild($xmlDoc->createElement("transcodingEnabled", $transcoding));
 		$deliveryTranscoding->appendChild($xmlDoc->createElement("bestVideoQuality", $quality));
@@ -740,8 +765,8 @@ class ServiioService extends RestRequest
         $deliverySubtitles->appendChild($xmlDoc->createElement("embeddedSubtitlesExtractionEnabled", $subtitlesextraction));
         $deliverySubtitles->appendChild($xmlDoc->createElement("hardSubsEnabled", $hardsubsenabled));
         $deliverySubtitles->appendChild($xmlDoc->createElement("hardSubsForced", $hardsubsforced));
-        $deliverySubtitles->appendChild($xmlDoc->createElement("preferredLanguage", $language));
-		$deliverySubtitles->appendChild($xmlDoc->createElement("hardSubsCharacterEncoding", $characterEncoding));
+        $deliverySubtitles->appendChild($xmlDoc->createElement("preferredLanguage", stripslashes(htmlspecialchars($language))));
+		$deliverySubtitles->appendChild($xmlDoc->createElement("hardSubsCharacterEncoding",  stripslashes(htmlspecialchars($characterEncoding))));
 
         /*
         header("Content-Type: text/plain");
@@ -762,7 +787,7 @@ class ServiioService extends RestRequest
     /**
      */
     public function putMetadata($audioLocalArtExtractorEnabled, $videoLocalArtExtractorEnabled, $videoOnlineArtExtractorEnabled,
-    $videoGenerateLocalThumbnailEnabled, $imageGenerateLocalThumbnailEnabled, $metadataLanguage, $descriptiveMetadataExtractor, $retrieveOriginalTitle)
+    $videoGenerateLocalThumbnailEnabled, $imageGenerateLocalThumbnailEnabled, $metadataLanguage, $descriptiveMetadataExtractor, $retrieveOriginalTitle, $filterVideosByRating)
     {
         // create the xml document
         $xmlDoc = new DOMDocument();
@@ -782,6 +807,10 @@ class ServiioService extends RestRequest
         $root->appendChild($xmlDoc->createElement("metadataLanguage", $metadataLanguage));
         $root->appendChild($xmlDoc->createElement("retrieveOriginalTitle", $retrieveOriginalTitle));
         $root->appendChild($xmlDoc->createElement("descriptiveMetadataExtractor", $descriptiveMetadataExtractor));
+        if ($filterVideosByRating!="") {
+            $root->appendChild($xmlDoc->createElement("filterVideosByRating", $filterVideosByRating));
+        }
+        
 
         /*
         header("Content-Type: text/plain");
@@ -816,32 +845,32 @@ class ServiioService extends RestRequest
         $sharedFolders = $root->appendChild($xmlDoc->createElement("sharedFolders"));
 
         /* FOLDERS */
-        foreach ($repo[0] as $id=>$entry) {
-            $Folder = $sharedFolders->appendChild($xmlDoc->createElement("sharedFolder"));
-            if ($entry[4] != "new") {
-                $Folder->appendChild($xmlDoc->createElement("id", $id));
-            }
-            $Folder->appendChild($xmlDoc->createElement("folderPath", $entry[0]));
+        if (isset($repo[0])) {
+            foreach ($repo[0] as $id=>$entry) {
+                $Folder = $sharedFolders->appendChild($xmlDoc->createElement("sharedFolder"));
+				if ($entry[3] != "new") {
+                    $Folder->appendChild($xmlDoc->createElement("id", $id));
+                }
+				$Folder->appendChild($xmlDoc->createElement("folderPath", stripslashes(htmlspecialchars($entry[0]))));
 
-            $supportedFileTypes = $Folder->appendChild($xmlDoc->createElement("supportedFileTypes"));
-            foreach ($entry[1] as $type) {
-                $supportedFileTypes->appendChild($xmlDoc->createElement("fileType", $type));
-            }
+                $supportedFileTypes = $Folder->appendChild($xmlDoc->createElement("supportedFileTypes"));
+                foreach ($entry[1] as $type) {
+                    $supportedFileTypes->appendChild($xmlDoc->createElement("fileType", $type));
+                }
 
-            $Folder->appendChild($xmlDoc->createElement("descriptiveMetadataSupported", $entry[2]));
-            $Folder->appendChild($xmlDoc->createElement("scanForUpdates", $entry[3]));
+                $Folder->appendChild($xmlDoc->createElement("descriptiveMetadataSupported", $entry[2]));
 
-            if (is_array($entry[5])) {
-                $accessGroupIds = $Folder->appendChild($xmlDoc->createElement("accessGroupIds"));
-                foreach ($entry[5] as $grpId) {
-                    $accessGroupIds->appendChild($xmlDoc->createElement("id", $grpId));
+                if (is_array($entry[4])) {
+                    $accessGroupIds = $Folder->appendChild($xmlDoc->createElement("accessGroupIds"));
+                    foreach ($entry[4] as $grpId) {
+                        $accessGroupIds->appendChild($xmlDoc->createElement("id", $grpId));
+                    }
                 }
             }
         }
         $root->appendChild($xmlDoc->createElement("searchHiddenFiles", $this->searchHiddenFiles));
         $root->appendChild($xmlDoc->createElement("searchForUpdates", $this->searchForUpdates));
         $root->appendChild($xmlDoc->createElement("automaticLibraryUpdate", $this->automaticLibraryUpdate));
-        $root->appendChild($xmlDoc->createElement("automaticLibraryUpdateInterval", $this->automaticLibraryUpdateInterval));
 
         /* Online Repositories */
         $sharedFolders = $root->appendChild($xmlDoc->createElement("onlineRepositories"));
@@ -852,12 +881,12 @@ class ServiioService extends RestRequest
                     $Folder->appendChild($xmlDoc->createElement("id", $id));
                 }
                 $Folder->appendChild($xmlDoc->createElement("repositoryType", $entry[0]));
-                $Folder->appendChild($xmlDoc->createElement("contentUrl", str_replace("&", "&amp;", $entry[1])));
+                $Folder->appendChild($xmlDoc->createElement("contentUrl", stripslashes(htmlspecialchars($entry[1]))));
                 $Folder->appendChild($xmlDoc->createElement("fileType", $entry[2]));
-                $Folder->appendChild($xmlDoc->createElement("thumbnailUrl", $entry[6]));
-                $Folder->appendChild($xmlDoc->createElement("repositoryName", $entry[4]));
+                $Folder->appendChild($xmlDoc->createElement("thumbnailUrl", stripslashes(htmlspecialchars($entry[6]))));
+                $Folder->appendChild($xmlDoc->createElement("repositoryName", stripslashes(htmlspecialchars($entry[4]))));
                 $Folder->appendChild($xmlDoc->createElement("enabled", $entry[5]));
-
+                
                 if (is_array($entry[7])) {
                     $accessGroupIds = $Folder->appendChild($xmlDoc->createElement("accessGroupIds"));
                     foreach ($entry[7] as $grpId) {
@@ -934,6 +963,21 @@ class ServiioService extends RestRequest
         parent::setUrl('http://'.$this->host.':'.$this->port.'/rest/presentation');
         parent::setVerb('PUT');
         parent::setRequestBody($xmlDoc->saveXML());
+        parent::execute();
+        return print_r(parent::getResponseBody());
+    }
+	
+	/**
+     */
+	public function putImportExport($backup)
+    {
+		//workaround for enabled magic quotes and whitespaces need to be trimmed
+		$backup = stripcslashes(trim($backup,"\t"));
+		
+		parent::flush();
+        parent::setUrl('http://'.$this->host.':'.$this->port.'/rest/import-export/online');
+        parent::setVerb('PUT');
+        parent::setRequestBody($backup);
         parent::execute();
         return print_r(parent::getResponseBody());
     }

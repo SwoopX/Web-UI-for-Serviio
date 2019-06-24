@@ -22,6 +22,13 @@
 			$errorCode = $serviio->postAction("forceOnlineResourceRefresh", array(getPostVar("os_no", "")));
 			return $errorCode;
 		}
+        
+        /*****************************************************************/
+		/*****************************************************************/
+		elseif (getPostVar("process", "") == "checkURL") {
+			$errorCode = $serviio->postAction("checkStreamUrl", array(getPostVar("MediaType", ""), getPostVar("SourceURL", "")));
+			return $errorCode;
+		}
 
 		/*****************************************************************/
 		/*****************************************************************/
@@ -52,12 +59,12 @@
 						$metaval = "false";
 					} 
 					$repo[0][$id] = array(
-						getPostVar("name_${id}", ""),
-						$items,
-						$metaval,
-						getPostVar("SCAN_${id}", "0")==1?"true":"false",
-						getPostVar("folder_${id}", "new"),
-						array(getPostVar("access_${id}", "")));
+						getPostVar("name_${id}", ""),                       //[0]folderPath
+						$items,                                             //[1]fileType
+						$metaval,                                           //[2]descriptiveMetadataSupported
+						//getPostVar("SCAN_${id}", "0")==1?"true":"false",  //[]scanForUpdates
+						getPostVar("folder_${id}", "new"),                  //[3]id
+						array(getPostVar("access_${id}", "")));             //[4]accessGroupIds
 				}
 
 				// Online Sources
@@ -79,7 +86,6 @@
 			$serviio->searchHiddenFiles = getPostVar("addhidden", "0")==1?"true":"false";
 			$serviio->searchForUpdates = getPostVar("searchupdates", "0")==1?"true":"false";
 			$serviio->automaticLibraryUpdate = getPostVar("autoupdate", "0")==1?"true":"false";
-			$serviio->automaticLibraryUpdateInterval = getPostVar("minutes", "0");
 
 			$serviio->maxNumberOfItemsForOnlineFeeds = getPostVar("maxfeeditems", "20");
 			$serviio->onlineFeedExpiryInterval = getPostVar("feedexpiry", "10");
@@ -88,23 +94,46 @@
 			$errorCode = $serviio->putRepository($repo);
 			return $errorCode;
 		}
+		
+		/*****************************************************************/
+		/*****************************************************************/
+		elseif (getPostVar("process", "") == "import") {
+			
+			$backup = getPostVar("backup", "");
+            $serviio->putImportExport($backup);
+            return;
 
+		}
+		
+		/*****************************************************************/
+		/*****************************************************************/
+		elseif (getPostVar("process", "") == "export") {
+			
+			$errorCode = $serviio->getImportExport();
+			return $errorCode;
+		}
+		
+		/*****************************************************************/
+		/*****************************************************************/
+        //Required for export functionality of the library tab
+		elseif(!empty($_POST['filename']) || !empty($_POST['content'])){
+			$filename = preg_replace('/[^a-z0-9\-\_\.]/i','',$_POST['filename']);
+
+			// Outputting headers:
+			header("Cache-Control: ");
+			header("Content-type: text/plain");
+			header('Content-Disposition: attachment; filename="'.$filename.'"');
+
+			//workaround for magic quotes and ampersand needs to be decoded as encoding was submit requirement
+			//echo str_replace('&amp;','&',str_replace('\\','',$_POST['content']));
+			echo str_replace('\\','',$_POST['content']);
+			return "";
+		}
+		
 		/********************************************************/
 		echo "<xml>Failed to get proper posting value!</xml>";
 		return "";
 
-	}
-	
-	elseif (isset($_GET["process"])) {
-		if ($_GET["process"] == "serviidb") {
-			include("../config.php");
-			include("../lib/RestRequest.inc.php");
-			include("../lib/serviidb.php");
-				
-			$serviidb = new ServiidbService($serviidb_url);
-			$tst = $serviidb->getVideo();
-			echo $tst;
-		}
 	}
 	
 	$repo = $serviio->getRepository();

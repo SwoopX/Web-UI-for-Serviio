@@ -25,13 +25,14 @@
 		                <tr>
 		                    <td><?php echo tr('tab_delivery_transcoding_folder_location','Transcoded files location')?>:&nbsp;</td>
 		                    <td><input type="text" id="location" name="location" size="40" value="<?php echo $serviio->transcodingFolderLocation?>"></td>
-		                    <td><input type="button" id="addFolder" name="addFolder" value="<?php echo tr('tab_delivery_transcoding_select_folder','Browse...')?>" class="ui-button ui-widget ui-state-default ui-corner-all btn-small" ></td>
+		                    <td><input type="button" id="addTranscodingFolder" name="addTranscodingFolder" value="<?php echo tr('tab_delivery_transcoding_select_folder','Browse...')?>" class="ui-button ui-widget ui-state-default ui-corner-all btn-small" ></td>
 		                </tr>
 		                <tr>
 		                    <td><?php echo tr('tab_delivery_transcoding_threads','Number of CPU cores to use')?>:&nbsp;</td>
 		                    <td><select name="cores">
+                            <option value=""><?php echo tr('tab_delivery_transcoding_cores','Optimal')?></option>
 							<?php foreach($numberOfCPUCores as $key=>$val) {for ($i=1;$i<=$val;$i++) { ?>
-		                    <option value="<?php echo $i?>"<?php echo $i==$val?" selected":""?>><?php echo $i?></option>
+		                    <option value="<?php echo $i?>"<?php echo $serviio->threadsNumber==$i?" selected":""?>><?php echo $i?></option>
 		                    <?php }} ?>
 		                    </select></td><td>&nbsp;</td>
 		                </tr>
@@ -62,13 +63,13 @@
             <br>
             <input type="checkbox" name="subtitlesextraction" value="1"<?php echo $serviio->embeddedSubtitlesExtractionEnabled=="true"?" checked":""?>> <?php echo tr('tab_delivery_subtitles_embedded_subtitles_extraction_enabled','Enable extraction of subtitles embedded in video files')?>
             <br>
-            <input type="checkbox" name="hardsubsenabled" value="1"<?php echo $serviio->hardSubsEnabled=="true"||$serviio->hardSubsForced=="true"?" checked":""?>> <?php echo tr('tab_delivery_subtitles_hard_subs_enabled','Enable burned-in subtitles')?>
-				<select id="hardSubs" name="hardsubs" <?php echo $serviio->hardSubsEnabled=="false"&&$serviio->hardSubsForced=="false"?"disabled":""?>>
+            <input type="checkbox" name="hardsubsenabled" id="hardsubsenabled" value="1"<?php echo $serviio->hardSubsEnabled=="true"||$serviio->hardSubsForced=="true"?" checked":""?>> <?php echo tr('tab_delivery_subtitles_hard_subs_enabled','Enable burned-in subtitles')?>
+				<select id="hardsubs" name="hardsubs">
 					<option value="enabled"<?php echo $serviio->hardSubsEnabled=="true"?" selected":""?>><?php echo tr('tab_delivery_subtitles_hard_subs_required','Only when required')?></option>
 					<option value="forced"<?php echo $serviio->hardSubsForced=="true"?" selected":""?>><?php echo tr('tab_delivery_subtitles_hard_subs_always','Always')?></option>
 				</select>
 			<br>
-			<?php echo tr('tab_delivery_subtitles_character_encoding','Subtitle character encoding').": "?><input type="text" name="characterEncoding" value="<?php echo $serviio->hardSubsCharacterEncoding?>" maxlength="10">
+			<?php echo tr('tab_delivery_subtitles_character_encoding','Subtitle character encoding').": "?><input type="text" name="characterEncoding" value="<?php echo htmlspecialchars($serviio->hardSubsCharacterEncoding)?>" maxlength="10">
 			
 			<br>
 			<br>
@@ -76,7 +77,7 @@
             <?php echo tr('tab_delivery_subtitles_preferred_languages','Define a list of preferred languages codes, separated with comma. Subtitles for the specified language codes will have preference.')?><br>
             <br>
             <?php echo tr('tab_delivery_subtitles_language_codes','Preferred language')?>:&nbsp;
-			<input type="text" name="language" value="<?php echo $serviio->preferredLanguage?>" maxlength="64">
+			<input type="text" name="language" value="<?php echo  htmlspecialchars($serviio->preferredLanguage)?>" maxlength="64">
             <br>
 		</div>
     
@@ -90,12 +91,5 @@
     
 </form>
 
-<div id="dialog-form" title="<?php echo tr('dialog_select_folder','Select Folder')?>">
-    <form accept-charset="utf-8">
-        <fieldset>
-            <label for="selValue"><?php echo tr('dialog_selected_folder','Selected Folder')?>:&nbsp;</label>
-            <input type="text" id="selValue" name="selValue" readonly="readonly" size="70" />
-            <div id="smallbrowser"></div>
-        </fieldset>
-    </form>
+<div id="delivery-dialog-form">
 </div>

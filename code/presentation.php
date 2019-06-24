@@ -31,8 +31,8 @@
 							$subCategories[$sid] = array($val, $subVisibility);
 						}
 					}
-					$title = $titles[$id][title];
-					$visibility = $visibilities[$id][visibility];
+					$title = $titles[$id]['title'];
+					$visibility = $visibilities[$id]['visibility'];
 					$categories[$id] = array($title, $visibility, $subCategories);
 				}
 			}

@@ -125,22 +125,57 @@ A:visited {
 }
 #PresentationAudio thead th,
 #PresentationImage thead th,
-#PresentationVideo thead th,
+#PresentationVideo thead th {
+    padding:5px;
+}
 #libraryTableOnlineSources thead th,
 #libraryTableFolders thead th,
 #rendererTable thead th {
-    padding:5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+#rendererTable thead > tr,
+#libraryTableFolders thead > tr,
+#libraryTableOnlineSources thead > tr,
+#rendererTable tbody,
+#libraryTableFolders tbody,
+#libraryTableOnlineSources tbody {
+    display: block;
 }
 #PresentationAudio tr.odd,
 #PresentationImage tr.odd,
 #PresentationVideo tr.odd,
-#libraryTableOnlineSources tr.odd,
-#libraryTableFolders tr.odd,
+#libraryTableOnlineSources tbody tr.odd,
+#libraryTableFolders tbody tr.odd,
 #rendererTable tr.odd {
     background: #f1f1f1;
+}
+#PresentationAudio tr.even,
+#PresentationImage tr.even,
+#PresentationVideo tr.even,
+#libraryTableOnlineSources tbody tr.even,
+#libraryTableFolders tbody tr.even,
+#rendererTable tr.even {
+    background: #f6f6f6;
+}
+#rendererTable tbody,
+#libraryTableFolders tbody,
+#libraryTableOnlineSources tbody {
+    overflow: auto;
+    height: 200px;
 }
 #libraryTableOnlineSources tbody td,
 #libraryTableFolders tbody td,
 #rendererTable tbody td {
-    padding:4px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    vertical-align: center;
+}
+
+#upl{
+    display:none;
+}
+
+.scrollbarSpacer {
+    padding:9px; 
 }

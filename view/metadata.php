@@ -44,6 +44,24 @@
                     <option value="<?php echo $key?>"<?php echo $key==$serviio->metadataLanguage?" selected":""?>><?php echo $val?></option>
                     <?php } ?>
                 </select> &nbsp; <input type="checkbox" name="orig_title" value="1"<?php echo $serviio->retrieveOriginalTitle=="true"?" checked":""?>> <?php echo tr('tab_metadata_video_use_original_title','Use original title')?>
+				
+				
+				
+				<br>
+                <br>
+				
+				<input type="checkbox" name="enable_video_filter" id="enable_video_filter" value="1" <?php echo ($serviio->filterVideosByRating!=""?'checked':'')?>> <?php echo tr('tab_metadata_video_allow_limited_access','Allow only videos with rating less than this for Limited Access group')?> &nbsp; 
+				<select name="filter_videos" id="filter_videos" <?php echo ($serviio->licenseEdition=="PRO"?'':'title="Enabled with PRO License"')?>>
+                    <?php foreach ($ratings as $key=>$val) { ?>
+						<option value="<?php echo $key?>"<?php echo $key==$serviio->filterVideosByRating?" selected":""?>><?php echo $val?></option>
+                    <?php } ?>
+                </select>
+				
+				
+				
+				
+				
+				
             </fieldset>
     </div>
     <div id="meta2" class="tabcontent">

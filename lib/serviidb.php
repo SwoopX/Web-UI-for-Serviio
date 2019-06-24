@@ -26,10 +26,11 @@ class ServiidbService extends RestRequest
         parent::setVerb('GET');
         parent::setContentType('');
         parent::execute();
+        //return print_r(parent::getResponseBody());
         return parent::getResponseBody();
 
 
-        $xml = simplexml_load_string(parent::getResponseBody());
+        /*$xml = simplexml_load_string(parent::getResponseBody());
         if ($xml===false) {
             $this->error = "Cannot get status";
             return false;
@@ -47,7 +48,7 @@ class ServiidbService extends RestRequest
             $accessGroupId = (string)$item->accessGroupId;
             $this->renderers[$uuid] = array($ipAddress, $name, $profileId, $status, $enabled, $accessGroupId);
         }
-        return array("serverStatus"=>$serverStatus, "renderers"=>$this->renderers, "boundNICName"=>$boundNICName);
+        return array("serverStatus"=>$serverStatus, "renderers"=>$this->renderers, "boundNICName"=>$boundNICName);*/
     }
 
 }
